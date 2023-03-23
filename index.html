@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <!-- Normalize All -->
+  <link rel="stylesheet" href="./css//normalize.css">
+  <!-- Font Awesome -->
+  <!-- <link rel="stylesheet" href="./css/all.min.css"> -->
+  <!-- Bootstrap Style -->
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <!-- To Do Style -->
+  <link rel="stylesheet" href="./css/style.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <span id="open-bar" class="scale-action rounded">
+    <i class="fa-solid fa-bars"></i>
+  </span>
+  <aside>
+    <header class="bar-logo d-flex fa-align-center justify-content-between mb-3">
+      <h1 class="fs-3">todo</h1>
+      <span id="close-btn" class="scale-action">
+        <i class="fa-solid fa-xmark"></i>
+      </span>
+    </header>
+    <ul class="p-0">
+      <li class="">
+        <a href="#" class="active">
+          <i class="fa-solid fa-house"></i>
+          <span>home</span>
+        </a>
+      </li>
+      <li><a href="#">
+          <i class="fa-solid fa-earth-americas"></i>
+          <span>today</span>
+        </a>
+      </li>
+      <li><a href="#">
+          <i class="fa-regular fa-calendar"></i>
+          <span>this week</span>
+        </a>
+      </li>
+    </ul>
+    <div id="my-projects" class=" mt-4">
+      <div class="projects-title">
+        <div class="mb-3 d-flex align-items-center justify-content-between w-100">
+          <h2>My Projects</h2>
+          <i class="scale-action fa-solid fa-plus add-project"></i>
+        </div>
+      </div>
+      <ul class="p-0">
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-list me-2"></i>
+            <span>Demo Project</span>
+            <div id="delete-project-btn">
+              <i class="fa-solid fa-trash"></i>
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-list me-2"></i>
+            <span>Second Project</span>
+            <div id="delete-project-btn">
+              <i class="fa-solid fa-trash"></i>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <footer>
+      <hr>
+      <div id="display-mode">
+        <span class="light-mode">
+          <i class="fa-solid fa-sun"></i>
+        </span>
+        <span class="dark-mode">
+          <i class="fa-solid fa-moon"></i>
+        </span>
+        <span class="ball"></span>
+      </div>
+    </footer>
+  </aside>
+
+  <script src="./js/bootstrap.bundle.min.js"></script>
+  <script src="./js/all.min.js"></script>
+  <script src="./js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,202 @@
+/* Start Variable */
+:root {
+  --black-color: #171c21;
+  --low-priority: #0072f5;
+  --medium-priority: #ffae00;
+  --high-priority: #ff2424;
+  --sec-color: #eef2f6;
+}
+
+/* End Variable */
+/* Start Global Style */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: var(--primary-color);
+  margin: 0 !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* End Global Style */
+/* Start aside Style  */
+aside {
+  width: 210px;
+  background-color: var(--sec-color, #eef2f6);
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 25px 20px;
+  transition-property: left;
+  transition-duration: 0.4s;
+  transition-timing-function: linear;
+}
+.closed-bar {
+  left: -210px;
+}
+
+aside h1 {
+  text-transform: uppercase;
+  font-weight: 900;
+
+}
+
+aside #close-btn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+
+.scale-action {
+  transition-duration: 0.4s;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  cursor: pointer;
+}
+
+.scale-action:hover {
+  transform: scale(1.3);
+}
+
+aside #close-btn svg {
+  margin: auto;
+}
+
+aside ul {
+  display: flex;
+  flex-direction: column;
+}
+
+aside ul li {
+  width: 100%;
+}
+
+aside ul li a {
+  width: 100%;
+  text-transform: capitalize;
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+aside ul li a {
+  color: var(--black-color);
+  display: inline-block;
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+aside ul li a.active {
+  background-color: var(--black-color);
+  color: #fff;
+}
+
+aside ul li a:hover:not(a.active) {
+  background-color: #171c2188;
+  color: #fff;
+}
+
+.projects-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.projects-title h2 {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.add-project {
+  cursor: pointer;
+}
+
+
+#my-projects ul li a {
+  position: relative;
+}
+
+#delete-project-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  z-index: 1;
+}
+
+aside footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+#open-bar {
+  position: fixed;
+  left: 15px;
+  top: 15px;
+  color: var(--black-color);
+  padding: 4px 8px;
+  background-color: var(--sec-color);
+}
+/* Display Mode Toggler */
+/* Light Mode */
+#display-mode {
+  padding: 25px 20px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+#display-mode svg {
+  font-size: 18px;
+}
+
+#display-mode .light-mode {
+  color: var(--medium-priority);
+}
+
+#display-mode .dark-mode {
+  color: var(--black-color);
+}
+
+#display-mode .ball {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  left: 14px;
+  transition: 0.4s;
+  background-color: var(--black-color);
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.4s;
+  z-index: -1;
+}
+body.display-dark #display-mode .ball {
+  left: 44px;
+  background-color: var(--medium-priority);
+}
+/* End Mode Toggler */
+/* End aside Style  */

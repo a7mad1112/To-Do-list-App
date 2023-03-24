@@ -35,6 +35,10 @@ a {
   text-decoration: none;
 }
 
+section h2 {
+  font-weight: bolder;
+}
+
 /* End Global Style */
 /* start header  */
 .header {
@@ -43,6 +47,7 @@ a {
   background-color: var(--black-color);
   display: none !important;
 }
+
 #toggle-bar {
   color: var(--black-color);
   padding: 2px 6px;
@@ -50,11 +55,13 @@ a {
   background-color: var(--sec-color);
   cursor: pointer;
 }
-@media (max-width: 992px) {
+
+@media (max-width: 767px) {
   .header {
     display: flex !important;
   }
 }
+
 /* end header */
 /* Start aside Style  */
 aside {
@@ -70,9 +77,11 @@ aside {
   transition-duration: 0.4s;
   transition-timing-function: linear;
 }
+
 .show-side {
-  left: 0;
+  left: -210px;
 }
+
 aside h1 {
   text-transform: uppercase;
   font-weight: 900;
@@ -204,17 +213,144 @@ aside footer {
   transition: 0.4s;
   z-index: -1;
 }
+
 body.display-dark #display-mode .ball {
   left: 44px;
   background-color: var(--medium-priority);
 }
+
 /* End Mode Toggler */
-@media (max-width: 992px) {
+@media (max-width: 767px) {
   aside {
-    height: calc(100vh - 33.5px);
-    top: 33.5px;
+    height: calc(100vh - 33.5px) !important;
     position: fixed;
-    left: -210px;
+    top: 33.5px;
+    left: -0;
   }
 }
+
 /* End aside Style  */
+
+/* tasks style  */
+.task {
+  margin-top: 6px !important;
+}
+
+.add-task button {
+  border: none;
+  outline: none;
+  background-color: var(--black-color);
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 7px 10px;
+  font-weight: bold;
+  transition-property: background-color;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+}
+
+.add-task button:hover {
+  background-color: #171c21cc;
+}
+
+.add-task button svg {
+  font-size: 13px;
+}
+
+/* Custom my accordion */
+.my-accordion {}
+
+.my-accordion .task {
+  display: flex;
+  background-color: var(--sec-color);
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.my-accordion .task::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.my-accordion .task.high-priority::before {
+  background-color: var(--high-priority);
+}
+
+.my-accordion .task.medium-priority::before {
+  background-color: var(--medium-priority);
+}
+
+.my-accordion .task.low-priority::before {
+  background-color: var(--low-priority);
+}
+
+.my-accordion .content-box {
+  position: relative;
+  margin: 10px 0 !important;
+}
+
+.my-accordion .content-box .label {
+  position: relative;
+  color: var(--black-color);
+  cursor: pointer;
+}
+
+.my-accordion .content-box .label::before {
+  content: '+';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -23px;
+  font-size: 1.3rem;
+}
+
+.my-accordion .content-box.active .label::before {
+  content: '-';
+}
+
+.my-accordion .content-box .content {
+  position: relative;
+  background-color: var(--sec-color);
+  height: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  transition: 0.1s;
+}
+
+.my-accordion .content-box.active .content {
+  height: fit-content;
+  padding: 10px;
+  border-top: 1px solid var(--black-color);
+}
+
+.my-accordion .content-box .content p {
+  font-size: 11px;
+}
+
+.my-accordion .content-box .content #end-date.time-limit {
+  color: var(--high-priority);
+}
+
+.my-accordion .content-box .task-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.my-accordion .content-box .task-actions svg {
+  font-size: 10px;
+  color: #5a636d;
+  cursor: pointer;
+}
+
+/* end tasks style  */

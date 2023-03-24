@@ -12,4 +12,11 @@ document.getElementById("display-mode").onclick = function () {
 document.getElementById("toggle-bar").onclick = function () {
   document.querySelector("body aside").classList.toggle("show-side");
 };
-
+/* accordion toggler */
+const accordions = [...document.getElementsByClassName('content-box')];
+// console.log(accordions)
+accordions.forEach(element => {
+  element.querySelector('.label').addEventListener('click', function(){
+    element.classList.toggle('active');
+  })
+});

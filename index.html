@@ -28,7 +28,7 @@
     </span>
   </header>
   <main class="d-flex">
-    <aside>
+    <aside class="side">
       <header class="bar-logo d-flex fa-align-center justify-content-between mb-3">
         <h1 class="fs-3">todo</h1>
         <span class="scale-action logo">
@@ -144,7 +144,7 @@
                 <span id="edit-task-btn">
                   <i class="fa-solid fa-pen"></i>
                 </span>
-                <span id="delete-task-btn" >
+                <span id="delete-task-btn">
                   <i class="fa-solid fa-trash"></i>
                 </span>
               </div>
@@ -170,7 +170,7 @@
                 <span id="edit-task-btn">
                   <i class="fa-solid fa-pen"></i>
                 </span>
-                <span id="delete-task-btn" >
+                <span id="delete-task-btn">
                   <i class="fa-solid fa-trash"></i>
                 </span>
               </div>
@@ -188,10 +188,85 @@
           </div>
           <!-- Tasks -->
         </div>
+      </div>
+      <div class="my-accordion complete-tasks">
+        <h2 class="fs-6 mt-4">Complete Tasks</h2>
+        <!-- Tasks -->
+        <div class="content-box">
+          <div class="task rounded-3 low-priority" aria-label="task">
+            <div class="label">
+              <span class="task-header">Task Four</span>
+            </div>
+            <div class="task-actions">
+              <span id="edit-task-btn">
+                <i class="fa-solid fa-pen"></i>
+              </span>
+              <span id="delete-task-btn" role="button" aria-label="Delete task">
+                <i class="fa-solid fa-trash"></i>
+              </span>
+            </div>
+          </div>
+          <div class="content rounded-bottom">
+            <p>
+              Details: Details Details Details Details
+            </p>
+            <p id="end-date" class="mt-1">Date: mon sep 13, 2023</p>
+            <!-- <p class="priority">Priority: High</p> -->
+            <p class="is-done text-end">
+              <input type="radio" name="isComplete" checked>
+            </p>
+          </div>
+        </div>
 
+        <!-- Tasks -->
       </div>
     </section>
+
+    <div id="add-task-form" class="my-modal">
+      <div class="my-modal-content rounded">
+        <header class="p-3 rounded-top d-flex align-items-center justify-content-between">
+          <h3 >New Task</h3>
+          <span class="close-add-task-form">
+            <i class="fa-solid fa-circle-xmark"></i>
+          </span>
+        </header>
+        <form class="p-3">
+          <div class="form-group mb-2">
+            <label class="d-block" for="task-name">Title</label>
+            <input class="d-block" type="text" id="task-name">
+            <p class="title-err">Task must include a title.</p>
+          </div>
+
+          <div class="form-group mb-2">
+            <label class="d-block" for="task-details">Details (notes)</label>
+            <textarea id="task-details" placeholder="Important details of your task..."></textarea>
+          </div>
+          <div class="form-group mb-2">
+            <div class="row gap-3">
+              <div class="col p-0">
+                <label for="select-priority">Priority</label>
+                <select class="d-block" id="select-priority">
+                  <option value="None">None</option>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+              <div class="col p-0">
+                <label for="due-date">Due Date</label>
+                <input type="date" id="due-date">
+              </div>
+            </div>
+          </div>
+          <div class="form-group mt-1">
+            <button type="submit">Create Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </main>
+
+
 
 
 

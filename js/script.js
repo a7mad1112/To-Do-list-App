@@ -150,3 +150,11 @@ function accordionToggle() {
     });
   });
 }
+/* handle show and close adding new task form*/
+document.getElementsByClassName("add-task")[0].onclick = () => {
+  document.getElementById("add-task-form").style.display = "flex";
+};
+document.querySelector(".close-add-task-form").onclick = () => {
+  document.getElementById("add-task-form").style.display = "none";
+};
+

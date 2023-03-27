@@ -366,8 +366,8 @@ body.display-dark #display-mode .ball {
 
 /* add task modal */
 .my-modal {
-  /* display: none; */
   display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   position: fixed;
@@ -382,7 +382,7 @@ body.display-dark #display-mode .ball {
 
 .my-modal-content {
   background-color: #fff;
-  width: 340px;
+  width: 320px;
   border-radius: 5px;
 }
 .my-modal-content header {
@@ -437,6 +437,22 @@ label[for="task-name"]::after {
 .my-modal-content textarea {
   height: 100px;
 }
+label[for="select-priority"] {
+  position: relative;
+}
+label[for="select-priority"]::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--low-priority);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+
 .my-modal-content select,
 .my-modal-content input[type="date"] {
   outline: none;
@@ -462,7 +478,7 @@ label[for="task-name"]::after {
   background-color: var(--black-color);
   color: #fff;
   width: 100%;
-  padding: 6px;
+  padding: 8px 6px;
   border-radius: 5px;
   font-size: 12px;
   font-weight: bold;

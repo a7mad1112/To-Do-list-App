@@ -30,9 +30,9 @@
   <main class="d-flex">
     <aside class="side">
       <header class="bar-logo d-flex fa-align-center justify-content-between mb-3">
-        <h1 class="fs-3">todo</h1>
+        <h1>todo</h1>
         <span class="scale-action logo">
-          <i class="fa-brands fa-github"></i>
+          <i class="fa-brands fa-github fs-4"></i>
         </span>
       </header>
       <ul class="p-0">
@@ -57,7 +57,7 @@
         <div class="projects-title">
           <div class="mb-3 d-flex align-items-center justify-content-between w-100">
             <h2>My Projects</h2>
-            <i class="scale-action fa-solid fa-plus add-project"></i>
+            <i class="scale-action fa-solid fa-plus add-project fs-5"></i>
           </div>
         </div>
         <ul class="p-0">
@@ -96,9 +96,9 @@
       </footer>
     </aside>
     <!-- Our content -->
-    <section class="py-4 px-4 w-100">
+    <section class="p-5 w-100">
       <header class="mb-3">
-        <h2 class="fs-5">Home</h2>
+        <h2 class="fs-3">Home</h2>
       </header>
       <div class="tasks-container w-100">
         <div class="add-task w-100 rounded">
@@ -224,17 +224,17 @@
 
     <div id="add-task-form" class="my-modal">
       <div class="my-modal-content rounded">
-        <header class="p-3 rounded-top d-flex align-items-center justify-content-between">
-          <h3 >New Task</h3>
+        <header class="py-4 px-3 rounded-top d-flex align-items-center justify-content-between">
+          <h3>New Task</h3>
           <span class="close-add-task-form">
             <i class="fa-solid fa-circle-xmark"></i>
           </span>
         </header>
-        <form class="p-3">
+        <form class="p-3" id="add-task-modal">
           <div class="form-group mb-2">
             <label class="d-block" for="task-name">Title</label>
             <input class="d-block" type="text" id="task-name">
-            <p class="title-err">Task must include a title.</p>
+            <p class="title-err"></p>
           </div>
 
           <div class="form-group mb-2">
@@ -244,12 +244,12 @@
           <div class="form-group mb-2">
             <div class="row gap-3">
               <div class="col p-0">
-                <label for="select-priority">Priority</label>
+                <label for="select-priority" data-color="">Priority</label>
                 <select class="d-block" id="select-priority">
-                  <option value="None">None</option>
-                  <option value="Low">Low</option>
-                  <option value="Medium">Medium</option>
-                  <option value="High">High</option>
+                  <option value="none">None</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
                 </select>
               </div>
               <div class="col p-0">

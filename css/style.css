@@ -23,8 +23,6 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  max-height: 100vh;
-  overflow-y: hidden;
 }
 
 ul {
@@ -42,7 +40,7 @@ section h2 {
 /* End Global Style */
 /* start header  */
 .header {
-  padding: 5px 12px;
+  padding: 12px 20px;
   width: 100%;
   background-color: var(--black-color);
   display: none !important;
@@ -51,7 +49,6 @@ section h2 {
 #toggle-bar {
   color: var(--black-color);
   padding: 2px 6px;
-  font-size: 13px;
   background-color: var(--sec-color);
   cursor: pointer;
 }
@@ -65,7 +62,7 @@ section h2 {
 /* end header */
 /* Start aside Style  */
 aside {
-  width: 210px;
+  width: 300px;
   background-color: var(--sec-color, #eef2f6);
   height: 100vh;
   position: sticky;
@@ -80,7 +77,7 @@ aside {
 
 @media (max-width: 767px) {
   .side {
-    left: -210px;
+    left: -300px;
   }
 }
 
@@ -114,6 +111,7 @@ aside .logo {
 aside ul {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 
 aside ul li {
@@ -123,9 +121,8 @@ aside ul li {
 aside ul li a {
   width: 100%;
   text-transform: capitalize;
-  padding: 2px 5px;
+  padding: 5px 5px;
   border-radius: 5px;
-  font-size: 12px;
 }
 
 aside ul li a {
@@ -151,7 +148,7 @@ aside ul li a:hover:not(a.active) {
 }
 
 .projects-title h2 {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -169,7 +166,7 @@ aside ul li a:hover:not(a.active) {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 12px;
+  font-size: 14px;
   z-index: 1;
 }
 
@@ -183,19 +180,19 @@ aside footer {
 /* Display Mode Toggler */
 /* Light Mode */
 #display-mode {
-  padding: 25px 20px;
+  padding: 45px 20px;
   cursor: pointer;
   position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  width: 90px;
   height: 40px;
   border-radius: 20px;
+  gap: 1rem;
 }
 
 #display-mode svg {
-  font-size: 18px;
+  font-size: 24px;
 }
 
 #display-mode .light-mode {
@@ -208,10 +205,10 @@ aside footer {
 
 #display-mode .ball {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  left: 14px;
+  left: 12px;
   transition: 0.4s;
   background-color: var(--black-color);
   top: 50%;
@@ -221,17 +218,17 @@ aside footer {
 }
 
 body.display-dark #display-mode .ball {
-  left: 44px;
+  left: 50px;
   background-color: var(--medium-priority);
 }
 
 /* End Mode Toggler */
 @media (max-width: 767px) {
   aside {
-    height: calc(100vh - 33.5px) !important;
+    height: calc(100vh - 52px) !important;
     position: fixed;
-    top: 33.5px;
-    left: -0;
+    top: 52px;
+    left: -0px;
   }
 }
 
@@ -247,12 +244,12 @@ body.display-dark #display-mode .ball {
   outline: none;
   background-color: var(--black-color);
   color: #fff;
-  font-size: 10px;
+  font-size: 15px;
   display: flex;
   justify-content: flex-start;
   gap: 0.5rem;
   align-items: center;
-  padding: 7px 10px;
+  padding:  10px;
   font-weight: bold;
   transition-property: background-color;
   transition-duration: 0.2s;
@@ -263,13 +260,7 @@ body.display-dark #display-mode .ball {
   background-color: #171c21cc;
 }
 
-.add-task button svg {
-  font-size: 13px;
-}
-
 /* Custom my accordion */
-.my-accordion {}
-
 .my-accordion .task {
   display: flex;
   background-color: var(--sec-color);
@@ -340,7 +331,7 @@ body.display-dark #display-mode .ball {
 }
 
 .my-accordion .content-box .content p {
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .my-accordion .content-box .content #end-date.time-limit {
@@ -349,11 +340,11 @@ body.display-dark #display-mode .ball {
 
 .my-accordion .content-box .task-actions {
   display: flex;
-  gap: 0.4rem;
+  gap: 0.9rem;
 }
 
 .my-accordion .content-box .task-actions svg {
-  font-size: 10px;
+  font-size: 16px;
   color: #5a636d;
   cursor: pointer;
 }
@@ -367,7 +358,7 @@ body.display-dark #display-mode .ball {
 /* add task modal */
 .my-modal {
   display: flex;
-  display: none;
+  /* display: none; */
   align-items: center;
   justify-content: center;
   position: fixed;
@@ -378,11 +369,15 @@ body.display-dark #display-mode .ball {
   height: 100vh;
   overflow: hidden;
   background-color: rgba(0,0,0,0.7);
+  transition: 0.3s;
+  transform: scale(0);
 }
-
+.scale {
+  transform: scale(1);
+}
 .my-modal-content {
   background-color: #fff;
-  width: 320px;
+  width: 400px;
   border-radius: 5px;
 }
 .my-modal-content header {
@@ -390,13 +385,12 @@ body.display-dark #display-mode .ball {
   color: #fff;
 }
 .my-modal-content header h3 {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: bold;
 }
 .close-add-task-form {
   cursor: pointer;
   color: var(--high-priority);
-  font-size: 14px;
   transition: 0.2s;
 }
 .close-add-task-form:hover {
@@ -405,7 +399,7 @@ body.display-dark #display-mode .ball {
 
 .my-modal-content form .form-group label {
   font-weight: bold;
-  font-size: 12px !important;
+  font-size: 17px;
   position: relative;
   width: fit-content;
   margin-bottom: 2px !important;
@@ -424,18 +418,18 @@ label[for="task-name"]::after {
   outline: none;
   border-radius: 5px;
   width: 100%;
-  padding: 4px;
-  font-size: 12px;
+  padding: 8px;
+  font-size: 15px;
 }
 .my-modal-content p.title-err {
   color: var(--high-priority);
-  font-size: 8px;
+  font-size: 11px;
   font-weight: bold;
   margin-top: 3px !important;
 }
 
 .my-modal-content textarea {
-  height: 100px;
+  height: 140px;
 }
 label[for="select-priority"] {
   position: relative;
@@ -446,10 +440,18 @@ label[for="select-priority"]::after {
   right: -10px;
   top: 50%;
   transform: translateY(-50%);
-  background-color: var(--low-priority);
   width: 6px;
   height: 6px;
   border-radius: 50%;
+}
+label[data-color="low"]::after {
+  background-color: var(--low-priority);
+}
+label[data-color="medium"]::after {
+  background-color: var(--medium-priority);
+}
+label[data-color="high"]::after {
+  background-color: var(--high-priority);
 }
 
 
@@ -457,15 +459,15 @@ label[for="select-priority"]::after {
 .my-modal-content input[type="date"] {
   outline: none;
   width: 100%;
-  font-size: 12px;
-  padding: 5px;
+  font-size: 14px;
+  padding: 8px 5px;
   border: 1px solid #b6bdc8;
   border-radius: 5px;
   transition: 0.3s;
   cursor: pointer;
 }
 .my-modal-content select option {
-  font-size: 12px;
+  font-size: 14px;
 }
 .my-modal-content select:hover,
 .my-modal-content input[type="date"]:hover {
@@ -480,7 +482,6 @@ label[for="select-priority"]::after {
   width: 100%;
   padding: 8px 6px;
   border-radius: 5px;
-  font-size: 12px;
   font-weight: bold;
   transition: 0.2s;
 }

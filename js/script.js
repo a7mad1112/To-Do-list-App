@@ -68,7 +68,7 @@ function getTasks() {
         <span id="edit-task-btn">
           <i class="fa-solid fa-pen"></i>
         </span>
-        <span id="delete-task-btn" role="button" aria-label="Delete task">
+        <span id="delete-task-btn" role="button" aria-label="Delete task" onclick=deleteTheUnCompleted(${i})>
           <i class="fa-solid fa-trash"></i>
         </span>
       </div>
@@ -152,11 +152,18 @@ function accordionToggle() {
 }
 /* handle show and close adding new task form*/
 document.getElementsByClassName("add-task")[0].onclick = () => {
-  document.getElementById("add-task-form").style.transform = "scale(1)";
+  document.getElementById("add-task-form").classList.add("scale");
 };
 document.querySelector(".close-add-task-form").onclick = () => {
-  document.getElementById("add-task-form").style.transform = "scale(0)";
+  document.getElementById("add-task-form").classList.remove("scale");
 };
+document
+  .getElementById("add-task-form")
+  .addEventListener("click", function (event) {
+    if (event.target === this) {
+      document.getElementById("add-task-form").classList.remove("scale");
+    }
+  });
 /* input validation for add new task */
 let validate = false;
 document.getElementById("task-name").addEventListener("input", (e) => {
@@ -214,4 +221,12 @@ function deleteTheCompleted(index) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
   getTasks();
 }
-deleteTheCompleted();
+function deleteTheUnCompleted(index) {
+  // console.l  og(tasks);
+  tasks = {
+    completed: tasks.completed.filter((e, i) => +i !== +index),
+    unCompleted: tasks.unCompleted,
+  };
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  getTasks();
+}

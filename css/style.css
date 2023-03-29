@@ -388,12 +388,12 @@ body.display-dark #display-mode .ball {
   font-size: 18px;
   font-weight: bold;
 }
-.close-add-task-form {
+.close-task-form {
   cursor: pointer;
   color: var(--high-priority);
   transition: 0.2s;
 }
-.close-add-task-form:hover {
+.close-task-form:hover {
   color: #ff242488;
 }
 

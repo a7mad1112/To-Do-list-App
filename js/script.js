@@ -2,6 +2,7 @@
 let displayMode = localStorage.getItem("mode") || "light";
 displayMode === "dark" ?? document.body.classList.add("dark-display");
 let tasks = [];
+let currentTasksState = [];
 let inputs = [
   ...document.querySelectorAll(
     "#add-task-modal input, #add-task-modal textarea, #add-task-modal select"
@@ -32,11 +33,11 @@ function addTask() {
 function getTasksForCurrentDay() {
   const today = new Date().toDateString(); // get today's date in the format "Day Month Date Year"
   getTasks();
-  let todayTasks = tasks.filter((task) => {
+  currentTasksState = tasks.filter((task) => {
     const taskDate = new Date(task.date).toDateString(); // convert the task's date to the same format
     return taskDate === today; // return true if the task's date matches today's date
   });
-  displayTasks(todayTasks);
+  displayTasks(currentTasksState);
 }
 
 function getTasksForNextSevenDays(tasks) {
@@ -46,11 +47,11 @@ function getTasksForNextSevenDays(tasks) {
     today.getMonth(),
     today.getDate() + 7
   ); // get the date for 7 days from now
-  let weekTasks = tasks.filter((task) => {
+  currentTasksState = tasks.filter((task) => {
     const taskDate = new Date(task.date); // convert the task's date to a Date object
     return taskDate >= today && taskDate <= nextSevenDays; // return true if the task's date falls within the next 7 days
   });
-  displayTasks(weekTasks);
+  displayTasks(currentTasksState);
 }
 
 function setupEventListeners() {
@@ -110,8 +111,7 @@ function setupEventListeners() {
           </div>
       `;
     setupEventListeners();
-    console.log(tasks);
-    displayTasks(tasks);
+    displayTasks(currentTasksState);
   };
 
   document.getElementById("go-today").onclick = function () {
@@ -169,6 +169,7 @@ setupEventListeners();
 getTasks();
 function getTasks() {
   tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  currentTasksState = tasks;
 }
 function storeTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -222,7 +223,7 @@ function myTemplate(task) {
 }
 
 function displayTasks(tasks) {
-  console.log(tasks);
+  getTasks();
   completedAccordion.innerHTML = "";
   let template = "";
   /*
@@ -262,21 +263,24 @@ function displayTasks(tasks) {
   ];
   storeTasks();
 */
-  tasks
-    .filter((e) => !e.isComplete)
-    .forEach((task) => {
-      template += myTemplate(task);
-    });
-  homeAccordion.innerHTML = template;
-  template = "";
 
-  if (tasks.filter((e) => !e.isComplete).length === 0)
+  if (tasks.filter((e) => !e.isComplete.length === 0))
     template = `
   <div class="relax-img">
             <img src="./imgs/relax.png" alt="relax">
             <p>You don't have any tasks, just relax!</p>
           </div>
   `;
+  else {
+    tasks
+      .filter((e) => !e.isComplete)
+      .forEach((task) => {
+        template += myTemplate(task);
+      });
+  }
+  homeAccordion.innerHTML = template;
+
+  template = "";
 
   tasks
     .filter((e) => e.isComplete)
@@ -286,16 +290,16 @@ function displayTasks(tasks) {
   completedAccordion.innerHTML = template;
   accordionToggle();
 }
-displayTasks(tasks);
+displayTasks(currentTasksState);
 /* Handle complete and unComplete task checkbox */
 function CompleteTask(id) {
   // console.log(tasks);
-  tasks.forEach((task) => {
+  currentTasksState.forEach((task) => {
     task.id === +id ? (task.isComplete = !task.isComplete) : null;
   });
   // console.log(tasks);
   storeTasks();
-  displayTasks(tasks);
+  displayTasks(currentTasksState);
 }
 
 /* accordion toggler */
@@ -389,7 +393,7 @@ function editTask(id) {
     storeTasks();
     document.getElementById("add-task-form").classList.remove("scale");
     inputs.forEach((e) => (e.value = ""));
-    displayTasks(tasks);
+    displayTasks(currentTasksState);
   };
 }
 /* handle active bar */

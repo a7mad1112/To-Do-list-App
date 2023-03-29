@@ -58,13 +58,13 @@ function setupEventListeners() {
     ...document.querySelectorAll(".my-accordion"),
   ];
   /* input validation for add new task */
-  document.getElementById("task-name").addEventListener("input", (e) => {
+  document.getElementById("task-name").oninput = (e) => {
     document.querySelector(".title-err").innerHTML = "";
     if (e.target.value.trim().length == 0) {
       document.querySelector(".title-err").innerHTML =
         "Task must include a title.";
     }
-  });
+  };
   document.getElementById("display-mode").onclick = function () {
     displayMode = displayMode === "light" ? "dark" : "light";
     localStorage.setItem("mode", displayMode);
@@ -77,16 +77,14 @@ function setupEventListeners() {
   document.querySelector(".close-add-task-form").onclick = () => {
     document.getElementById("add-task-form").classList.remove("scale");
   };
-  document
-    .getElementById("add-task-form")
-    .addEventListener("click", function (event) {
-      if (event.target === this) {
-        document.getElementById("add-task-form").classList.remove("scale");
-      }
-    });
+  document.getElementById("add-task-form").onclick = function (event) {
+    if (event.target === this) {
+      document.getElementById("add-task-form").classList.remove("scale");
+    }
+  };
 
   // add event listener to go-home button
-  document.getElementById("go-home").addEventListener("click", function () {
+  document.getElementById("go-home").onclick = function () {
     document.getElementById("main-content").innerHTML = `
       <header class="mb-3">
             <h2 class="fs-3">Home</h2>
@@ -114,9 +112,9 @@ function setupEventListeners() {
     setupEventListeners();
     console.log(tasks);
     displayTasks(tasks);
-  });
+  };
 
-  document.getElementById("go-today").addEventListener("click", function () {
+  document.getElementById("go-today").onclick = function () {
     document.getElementById("main-content").innerHTML = `
       <header class="mb-3">
             <h2 class="fs-3">Today</h2>
@@ -137,9 +135,9 @@ function setupEventListeners() {
       `;
     setupEventListeners();
     getTasksForCurrentDay();
-  });
+  };
 
-  document.getElementById("go-week").addEventListener("click", function () {
+  document.getElementById("go-week").onclick = function () {
     document.getElementById("main-content").innerHTML = `
       <header class="mb-3">
             <h2 class="fs-3">This Week</h2>
@@ -160,7 +158,7 @@ function setupEventListeners() {
       `;
     setupEventListeners();
     getTasksForNextSevenDays(tasks);
-  });
+  };
 }
 
 // call setupEventListeners initially
@@ -271,6 +269,14 @@ function displayTasks(tasks) {
     });
   homeAccordion.innerHTML = template;
   template = "";
+
+  if (tasks.filter((e) => !e.isComplete).length === 0)
+    template = `
+  <div class="relax-img">
+            <img src="./imgs/relax.png" alt="relax">
+            <p>You don't have any tasks, just relax!</p>
+          </div>
+  `;
 
   tasks
     .filter((e) => e.isComplete)

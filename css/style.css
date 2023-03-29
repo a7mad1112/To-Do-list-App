@@ -488,4 +488,13 @@ label[data-color="high"]::after {
 .my-modal-content .form-group button[type="submit"]:hover {
   background-color: #171c21dd;
 }
+
+.relax-img {
+  width: 100%;
+  text-align: center;
+}
+.relax-img img {
+  width: 100%;
+  max-width: 600px;
+}
 /* end add task modal */

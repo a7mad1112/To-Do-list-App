@@ -7,22 +7,167 @@ let inputs = [
     "#add-task-modal input, #add-task-modal textarea, #add-task-modal select"
   ),
 ];
-document.getElementById("display-mode").onclick = function () {
-  displayMode = displayMode === "light" ? "dark" : "light";
-  localStorage.setItem("mode", displayMode);
-  displayMode === "dark"
-    ? document.body.classList.add("display-dark")
-    : document.body.classList.remove("display-dark");
-};
+const activeLi = document.querySelectorAll("aside ul li a");
+let activeIndex = 0; // set the initial active index
+let [homeAccordion, completedAccordion] = [
+  ...document.querySelectorAll(".my-accordion"),
+];
 /* toggle aside button */
 document.getElementById("toggle-bar").onclick = function () {
   document.querySelector("body aside").classList.toggle("show-side");
 };
 
+function changeFormString(title, submit) {
+  document.querySelector("#add-task-form h3").innerHTML = title;
+  document.querySelector("#add-task-form button").innerHTML = submit;
+}
+
+function addTask() {
+  changeFormString("New Task", "Create Task");
+  inputs.forEach((e) => (e.value = ""));
+  document.getElementById("add-task-modal").onsubmit = ADD_TASK;
+  document.getElementById("add-task-form").classList.add("scale");
+}
+
+function getTasksForCurrentDay() {
+  const today = new Date().toDateString(); // get today's date in the format "Day Month Date Year"
+  getTasks();
+  let todayTasks = tasks.filter((task) => {
+    const taskDate = new Date(task.date).toDateString(); // convert the task's date to the same format
+    return taskDate === today; // return true if the task's date matches today's date
+  });
+  displayTasks(todayTasks);
+}
+
+function getTasksForNextSevenDays(tasks) {
+  const today = new Date(); // get today's date
+  const nextSevenDays = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + 7
+  ); // get the date for 7 days from now
+  let weekTasks = tasks.filter((task) => {
+    const taskDate = new Date(task.date); // convert the task's date to a Date object
+    return taskDate >= today && taskDate <= nextSevenDays; // return true if the task's date falls within the next 7 days
+  });
+  displayTasks(weekTasks);
+}
+
+function setupEventListeners() {
+  [homeAccordion, completedAccordion] = [
+    ...document.querySelectorAll(".my-accordion"),
+  ];
+  /* input validation for add new task */
+  document.getElementById("task-name").addEventListener("input", (e) => {
+    document.querySelector(".title-err").innerHTML = "";
+    if (e.target.value.trim().length == 0) {
+      document.querySelector(".title-err").innerHTML =
+        "Task must include a title.";
+    }
+  });
+  document.getElementById("display-mode").onclick = function () {
+    displayMode = displayMode === "light" ? "dark" : "light";
+    localStorage.setItem("mode", displayMode);
+    displayMode === "dark"
+      ? document.body.classList.add("display-dark")
+      : document.body.classList.remove("display-dark");
+  };
+  /* handle show and close adding new task form */
+
+  document.querySelector(".close-add-task-form").onclick = () => {
+    document.getElementById("add-task-form").classList.remove("scale");
+  };
+  document
+    .getElementById("add-task-form")
+    .addEventListener("click", function (event) {
+      if (event.target === this) {
+        document.getElementById("add-task-form").classList.remove("scale");
+      }
+    });
+
+  // add event listener to go-home button
+  document.getElementById("go-home").addEventListener("click", function () {
+    document.getElementById("main-content").innerHTML = `
+      <header class="mb-3">
+            <h2 class="fs-3">Home</h2>
+          </header>
+          <div class="tasks-container w-100">
+            <div class="add-task w-100 rounded" onclick="addTask()">
+              <button class="w-100 rounded">
+                <i class="fa-solid fa-plus add-project"></i>
+                <span>Add new task</span>
+              </button>
+            </div>
+            <div class="my-accordion">
+              <!-- Tasks -->
+    
+              <!-- Tasks -->
+            </div>
+          </div>
+          <h2 class="fs-6 mt-4">Complete Tasks</h2>
+          <div class="my-accordion complete-tasks">
+            <!-- Tasks -->
+    
+            <!-- Tasks -->
+          </div>
+      `;
+    setupEventListeners();
+    console.log(tasks);
+    displayTasks(tasks);
+  });
+
+  document.getElementById("go-today").addEventListener("click", function () {
+    document.getElementById("main-content").innerHTML = `
+      <header class="mb-3">
+            <h2 class="fs-3">Today</h2>
+          </header>
+          <div class="tasks-container w-100">
+            <div class="my-accordion">
+              <!-- Tasks -->
+    
+              <!-- Tasks -->
+            </div>
+          </div>
+          <h2 class="fs-6 mt-4">Complete Tasks</h2>
+          <div class="my-accordion complete-tasks">
+            <!-- Tasks -->
+    
+            <!-- Tasks -->
+          </div>
+      `;
+    setupEventListeners();
+    getTasksForCurrentDay();
+  });
+
+  document.getElementById("go-week").addEventListener("click", function () {
+    document.getElementById("main-content").innerHTML = `
+      <header class="mb-3">
+            <h2 class="fs-3">This Week</h2>
+          </header>
+          <div class="tasks-container w-100">
+            <div class="my-accordion">
+              <!-- Tasks -->
+    
+              <!-- Tasks -->
+            </div>
+          </div>
+          <h2 class="fs-6 mt-4">Complete Tasks</h2>
+          <div class="my-accordion complete-tasks">
+            <!-- Tasks -->
+    
+            <!-- Tasks -->
+          </div>
+      `;
+    setupEventListeners();
+    getTasksForNextSevenDays(tasks);
+  });
+}
+
+// call setupEventListeners initially
+setupEventListeners();
+
 /* function to get tasks from local storage and display them in home section*/
-let [homeAccordion, completedAccordion] = [
-  ...document.querySelectorAll(".my-accordion"),
-];
+
 getTasks();
 function getTasks() {
   tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -64,7 +209,9 @@ function myTemplate(task) {
     <p>
       Details: ${task.details}
     </p>
-    <p id="end-date" class="mt-1 ${hasDatePassed(task.date) ? "time-limit" : "null"}">Date: ${task.date}</p>
+    <p id="end-date" class="mt-1 ${
+      hasDatePassed(task.date) ? "time-limit" : "null"
+    }">Date: ${task.date}</p>
     <!-- <p class="priority">Priority: High</p> -->
     <p class="is-done text-end">
       <input type="checkbox" name="isComplete" ${
@@ -76,10 +223,10 @@ function myTemplate(task) {
   `;
 }
 
-function displayTasks() {
+function displayTasks(tasks) {
+  console.log(tasks);
   completedAccordion.innerHTML = "";
   let template = "";
-  getTasks();
   /*
   tasks = [
     {
@@ -133,7 +280,7 @@ function displayTasks() {
   completedAccordion.innerHTML = template;
   accordionToggle();
 }
-displayTasks();
+displayTasks(tasks);
 /* Handle complete and unComplete task checkbox */
 function CompleteTask(id) {
   // console.log(tasks);
@@ -142,7 +289,7 @@ function CompleteTask(id) {
   });
   // console.log(tasks);
   storeTasks();
-  displayTasks();
+  displayTasks(tasks);
 }
 
 /* accordion toggler */
@@ -155,38 +302,7 @@ function accordionToggle() {
     });
   });
 }
-/* handle show and close adding new task form */
-function changeFormString(title, submit) {
-  document.querySelector("#add-task-form h3").innerHTML = title;
-  document.querySelector("#add-task-form button").innerHTML = submit;
-}
 
-document.getElementsByClassName("add-task")[0].onclick = () => {
-  changeFormString("New Task", "Create Task");
-  inputs.forEach((e) => (e.value = ""));
-  document.getElementById("add-task-modal").onsubmit = ADD_TASK;
-  document.getElementById("add-task-form").classList.add("scale");
-};
-
-document.querySelector(".close-add-task-form").onclick = () => {
-  document.getElementById("add-task-form").classList.remove("scale");
-};
-document
-  .getElementById("add-task-form")
-  .addEventListener("click", function (event) {
-    if (event.target === this) {
-      document.getElementById("add-task-form").classList.remove("scale");
-    }
-  });
-/* input validation for add new task */
-document.getElementById("task-name").addEventListener("input", (e) => {
-  console.log(e.target.value);
-  document.querySelector(".title-err").innerHTML = "";
-  if (e.target.value.trim().length == 0) {
-    document.querySelector(".title-err").innerHTML =
-      "Task must include a title.";
-  }
-});
 function validation() {
   return Boolean(document.getElementById("task-name").value);
 }
@@ -194,7 +310,6 @@ function validation() {
 /* handle submit form */
 function ADD_TASK(e) {
   e.preventDefault();
-  console.log(validation());
   if (!validation()) return;
   let title = document.getElementById("task-name").value;
   let details = document.getElementById("task-details").value;
@@ -215,7 +330,7 @@ function ADD_TASK(e) {
   /* empty and close the form */
 
   inputs.forEach((e) => (e.value = ""));
-  displayTasks();
+  displayTasks(tasks);
   document.getElementById("add-task-form").classList.remove("scale");
 }
 /* change the color of dot after priority in the add form */
@@ -231,7 +346,7 @@ function deleteTask(id) {
   getTasks();
   tasks = tasks.filter((t) => t.id != id);
   storeTasks();
-  displayTasks();
+  displayTasks(tasks);
 }
 /* handle show and close edit task form */
 function editTask(id) {
@@ -268,9 +383,26 @@ function editTask(id) {
     storeTasks();
     document.getElementById("add-task-form").classList.remove("scale");
     inputs.forEach((e) => (e.value = ""));
-    displayTasks();
+    displayTasks(tasks);
   };
 }
+/* handle active bar */
+
+activeLi.forEach((element, index) => {
+  element.addEventListener("click", () => {
+    activeIndex = setActiveElement(activeLi, activeIndex, index);
+  });
+});
+function setActiveElement(elements, activeIndex, clickedIndex) {
+  // remove the active class from the previously active element
+  elements[activeIndex].classList.remove("active");
+  // set the active class on the clicked element
+  elements[clickedIndex].classList.add("active");
+
+  // return the index of the new active element
+  return clickedIndex;
+}
+/* handle aside home click */
 
 /*
 

@@ -37,17 +37,18 @@
       </header>
       <ul class="p-0">
         <li class="">
-          <a href="#" class="active">
+          <a href="#" id="go-home" class="active">
             <i class="fa-solid fa-house"></i>
             <span>home</span>
           </a>
         </li>
-        <li><a href="#">
+        <li>
+          <a href="#" id="go-today">
             <i class="fa-solid fa-earth-americas"></i>
             <span>today</span>
           </a>
         </li>
-        <li><a href="#">
+        <li><a href="#" id="go-week">
             <i class="fa-regular fa-calendar"></i>
             <span>this week</span>
           </a>
@@ -96,12 +97,12 @@
       </footer>
     </aside>
     <!-- Our content -->
-    <section class="p-5 w-100">
+    <section id="main-content" class="p-5 w-100">
       <header class="mb-3">
         <h2 class="fs-3">Home</h2>
       </header>
       <div class="tasks-container w-100">
-        <div class="add-task w-100 rounded">
+        <div class="add-task w-100 rounded" onclick="addTask()">
           <button class="w-100 rounded">
             <i class="fa-solid fa-plus add-project"></i>
             <span>Add new task</span>
@@ -109,114 +110,13 @@
         </div>
         <div class="my-accordion">
           <!-- Tasks -->
-          <div class="content-box">
-            <div class="task rounded-3 low-priority" aria-label="task">
-              <div class="label">
-                <span class="task-header">Task One</span>
-              </div>
-              <div class="task-actions">
-                <span id="edit-task-btn">
-                  <i class="fa-solid fa-pen"></i>
-                </span>
-                <span id="delete-task-btn" role="button" aria-label="Delete task">
-                  <i class="fa-solid fa-trash"></i>
-                </span>
-              </div>
-            </div>
-            <div class="content rounded-bottom">
-              <p>
-                Details: Details Details Details Details
-              </p>
-              <p id="end-date" class="mt-1">Date: mon sep 13, 2023</p>
-              <!-- <p class="priority">Priority: High</p> -->
-              <p class="is-done text-end">
-                <input type="checkbox" name="isComplete">
-              </p>
-            </div>
-          </div>
 
-          <div class="content-box">
-            <div class="task rounded-3 medium-priority">
-              <div class="label">
-                <span class="task-header">Task two</span>
-              </div>
-              <div class="task-actions">
-                <span id="edit-task-btn">
-                  <i class="fa-solid fa-pen"></i>
-                </span>
-                <span id="delete-task-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </span>
-              </div>
-            </div>
-            <div class="content rounded-bottom">
-              <p>
-                Details: Details Details Details Details
-              </p>
-              <p id="end-date" class="mt-1 time-limit">Date: mon sep 13, 2023</p>
-              <!-- <p class="priority">Priority: High</p> -->
-              <p class="is-done text-end">
-                <input type="radio" name="isComplete">
-              </p>
-            </div>
-          </div>
-
-          <div class="content-box">
-            <div class="task rounded-3 high-priority">
-              <div class="label">
-                <span class="task-header">Task One</span>
-              </div>
-              <div class="task-actions">
-                <span id="edit-task-btn">
-                  <i class="fa-solid fa-pen"></i>
-                </span>
-                <span id="delete-task-btn">
-                  <i class="fa-solid fa-trash"></i>
-                </span>
-              </div>
-            </div>
-            <div class="content rounded-bottom">
-              <p>
-                Details: Details Details Details Details
-              </p>
-              <p id="end-date" class="mt-1">Date: mon sep 13, 2023</p>
-              <!-- <p class="priority">Priority: High</p> -->
-              <p class="is-done text-end">
-                <input type="radio" name="isComplete">
-              </p>
-            </div>
-          </div>
           <!-- Tasks -->
         </div>
       </div>
       <h2 class="fs-6 mt-4">Complete Tasks</h2>
       <div class="my-accordion complete-tasks">
         <!-- Tasks -->
-        <div class="content-box">
-          <div class="task rounded-3 low-priority" aria-label="task">
-            <div class="label">
-              <span class="task-header">Task Four</span>
-            </div>
-            <div class="task-actions">
-              <span id="edit-task-btn">
-                <i class="fa-solid fa-pen"></i>
-              </span>
-              <span id="delete-task-btn" role="button" aria-label="Delete task">
-                <i class="fa-solid fa-trash"></i>
-              </span>
-            </div>
-          </div>
-          <div class="content rounded-bottom">
-            <p>
-              Details: Details Details Details Details
-            </p>
-            <p id="end-date" class="mt-1">Date: mon sep 13, 2023</p>
-            <!-- <p class="priority">Priority: High</p> -->
-            <p class="is-done text-end">
-              <input type="radio" name="isComplete" checked>
-            </p>
-          </div>
-        </div>
 
         <!-- Tasks -->
       </div>
@@ -264,7 +164,7 @@
         </form>
       </div>
     </div>
-    
+
 
   </main>
 
@@ -280,3 +180,81 @@
 </body>
 
 </html>
+
+<!-- <div class="content-box">
+  <div class="task rounded-3 low-priority" aria-label="task">
+    <div class="label">
+      <span class="task-header">Task One</span>
+    </div>
+    <div class="task-actions">
+      <span id="edit-task-btn">
+        <i class="fa-solid fa-pen"></i>
+      </span>
+      <span id="delete-task-btn" role="button" aria-label="Delete task">
+        <i class="fa-solid fa-trash"></i>
+      </span>
+    </div>
+  </div>
+  <div class="content rounded-bottom">
+    <p>
+      Details: Details Details Details Details
+    </p>
+    <p id="end-date" class="mt-1">Date: mon sep 13, 2023</p>
+    <!-- <p class="priority">Priority: High</p> -->
+<p class="is-done text-end">
+  <input type="checkbox" name="isComplete">
+</p>
+</div>
+</div>
+
+<div class="content-box">
+  <div class="task rounded-3 medium-priority">
+    <div class="label">
+      <span class="task-header">Task two</span>
+    </div>
+    <div class="task-actions">
+      <span id="edit-task-btn">
+        <i class="fa-solid fa-pen"></i>
+      </span>
+      <span id="delete-task-btn">
+        <i class="fa-solid fa-trash"></i>
+      </span>
+    </div>
+  </div>
+  <div class="content rounded-bottom">
+    <p>
+      Details: Details Details Details Details
+    </p>
+    <p id="end-date" class="mt-1 time-limit">Date: mon sep 13, 2023</p>
+    <!-- <p class="priority">Priority: High</p> -->
+    <p class="is-done text-end">
+      <input type="radio" name="isComplete">
+    </p>
+  </div>
+</div>
+
+<div class="content-box">
+  <div class="task rounded-3 high-priority">
+    <div class="label">
+      <span class="task-header">Task One</span>
+    </div>
+    <div class="task-actions">
+      <span id="edit-task-btn">
+        <i class="fa-solid fa-pen"></i>
+      </span>
+      <span id="delete-task-btn">
+        <i class="fa-solid fa-trash"></i>
+      </span>
+    </div>
+  </div>
+  <div class="content rounded-bottom">
+    <p>
+      Details: Details Details Details Details
+    </p>
+    <p id="end-date" class="mt-1">Date: mon sep 13, 2023</p>
+    <!-- <p class="priority">Priority: High</p> -->
+    <p class="is-done text-end">
+      <input type="radio" name="isComplete">
+    </p>
+  </div>
+</div> -->

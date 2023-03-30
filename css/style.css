@@ -42,7 +42,7 @@ section h2 {
 .header {
   padding: 12px 20px;
   width: 100%;
-  background-color: var(--black-color);
+  background-color: var(--sec-color);
   display: none !important;
 }
 
@@ -69,7 +69,7 @@ aside {
   z-index: 1;
   left: 0;
   top: 0;
-  padding: 25px 20px;
+  padding: 45px 20px;
   transition-property: left;
   transition-duration: 0.4s;
   transition-timing-function: linear;
@@ -78,11 +78,18 @@ aside {
 @media (max-width: 767px) {
   .side {
     left: -300px;
+    position: fixed;
+    height: 100vh;
+    padding-top: 60px;
+  }
+
+  #main-content {
+    width: 100%;
   }
 }
 
 .show-side {
-  left: 0px;
+  left: 0;
 }
 
 aside h1 {
@@ -223,20 +230,16 @@ body.display-dark #display-mode .ball {
 }
 
 /* End Mode Toggler */
-@media (max-width: 767px) {
-  aside {
-    height: calc(100vh - 52px) !important;
-    position: fixed;
-    top: 52px;
-    left: -0px;
-  }
-}
 
 /* End aside Style  */
 
 /* tasks style  */
 .task {
   margin-top: 6px !important;
+}
+
+.add-task {
+  margin-bottom: 30px !important;
 }
 
 .add-task button {
@@ -249,7 +252,7 @@ body.display-dark #display-mode .ball {
   justify-content: flex-start;
   gap: 0.5rem;
   align-items: center;
-  padding:  10px;
+  padding: 10px;
   font-weight: bold;
   transition-property: background-color;
   transition-duration: 0.2s;
@@ -368,31 +371,37 @@ body.display-dark #display-mode .ball {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   transition: 0.3s;
   transform: scale(0);
 }
+
 .scale {
   transform: scale(1);
 }
+
 .my-modal-content {
   background-color: #fff;
   width: 400px;
   border-radius: 5px;
 }
+
 .my-modal-content header {
   background-color: var(--black-color);
   color: #fff;
 }
+
 .my-modal-content header h3 {
   font-size: 18px;
   font-weight: bold;
 }
+
 .close-task-form {
   cursor: pointer;
   color: var(--high-priority);
   transition: 0.2s;
 }
+
 .close-task-form:hover {
   color: #ff242488;
 }
@@ -404,6 +413,7 @@ body.display-dark #display-mode .ball {
   width: fit-content;
   margin-bottom: 2px !important;
 }
+
 label[for="task-name"]::after {
   content: '*';
   color: var(--high-priority);
@@ -412,6 +422,7 @@ label[for="task-name"]::after {
   transform: translateY(-50%);
   right: -7px;
 }
+
 .my-modal-content input,
 .my-modal-content textarea {
   border: 1px solid #bbb;
@@ -421,6 +432,7 @@ label[for="task-name"]::after {
   padding: 8px;
   font-size: 15px;
 }
+
 .my-modal-content p.title-err {
   color: var(--high-priority);
   font-size: 11px;
@@ -431,9 +443,11 @@ label[for="task-name"]::after {
 .my-modal-content textarea {
   height: 140px;
 }
+
 label[for="select-priority"] {
   position: relative;
 }
+
 label[for="select-priority"]::after {
   content: '';
   position: absolute;
@@ -444,12 +458,15 @@ label[for="select-priority"]::after {
   height: 6px;
   border-radius: 50%;
 }
+
 label[data-color="low"]::after {
   background-color: var(--low-priority);
 }
+
 label[data-color="medium"]::after {
   background-color: var(--medium-priority);
 }
+
 label[data-color="high"]::after {
   background-color: var(--high-priority);
 }
@@ -466,9 +483,11 @@ label[data-color="high"]::after {
   transition: 0.3s;
   cursor: pointer;
 }
+
 .my-modal-content select option {
   font-size: 14px;
 }
+
 .my-modal-content select:hover,
 .my-modal-content input[type="date"]:hover {
   background-color: #f5f8ff;
@@ -485,6 +504,7 @@ label[data-color="high"]::after {
   font-weight: bold;
   transition: 0.2s;
 }
+
 .my-modal-content .form-group button[type="submit"]:hover {
   background-color: #171c21dd;
 }
@@ -493,8 +513,83 @@ label[data-color="high"]::after {
   width: 100%;
   text-align: center;
 }
+
 .relax-img img {
   width: 100%;
   max-width: 600px;
 }
+
 /* end add task modal */
+
+/* start dark mode */
+.display-dark .header {
+  background-color: #000;
+}
+
+.display-dark {
+  background-color: var(--black-color);
+}
+
+.display-dark aside {
+  background-color: #000;
+}
+
+.display-dark aside h1,
+.display-dark aside ul li a,
+.display-dark h2 {
+  color: #fff;
+}
+
+.display-dark aside ul li a.active {
+  background-color: var(--low-priority);
+  color: #fff;
+}
+
+.display-dark aside ul li a:hover:not(a.active) {
+  background-color: #0072f588;
+}
+
+.display-dark #display-mode .ball {
+  background-color: var(--low-priority) !important;
+}
+
+.display-dark {
+  color: #fff;
+}
+
+.display-dark .add-task button {
+  background-color: var(--low-priority);
+}
+
+.display-dark .add-task button:hover {
+  background-color: #0072f588;
+}
+
+
+.display-dark .my-accordion .task {
+  background-color: #9fb3c8;
+}
+
+.display-dark .my-accordion .content-box .content {
+  background-color: #9fb3c8;
+  color: var(--black-color);
+}
+
+.display-dark .my-modal-content {
+  background-color: var(--black-color);
+}
+
+.display-dark .my-modal-content input,
+.display-dark .my-modal-content textarea,
+.display-dark .my-modal-content select {
+  color: var(--black-color);
+}
+
+.display-dark .my-modal-content .form-group button[type="submit"]{
+  background-color: var(--low-priority);
+}
+
+.display-dark .my-modal-content header {
+  color: #fff;
+}
+/* end dark mode */

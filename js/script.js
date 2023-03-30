@@ -1,8 +1,26 @@
 /* handle mode and mode toggler */
 let displayMode = localStorage.getItem("mode") || "light";
-displayMode === "dark" ?? document.body.classList.add("dark-display");
+displayMode === "dark" ? document.body.classList.add("display-dark"): null;
+console.log(displayMode)
+console.log(document.body);
+
 let tasks = [];
 let currentTasksState = [];
+function getCurrentTasksState() {
+  let active = document.querySelector('aside ul li a.active').id
+  if (active === 'go-home')
+  {
+    getTasks()
+    console.log(currentTasksState);
+  } else if (active === 'go-today')
+  {
+    getTasksForCurrentDay();
+  } else if (active === 'go-week')
+  {
+    getTasksForNextSevenDays(tasks);
+  }
+  console.log(active)
+}
 let inputs = [
   ...document.querySelectorAll(
     "#add-task-modal input, #add-task-modal textarea, #add-task-modal select"
@@ -32,7 +50,7 @@ function addTask() {
 
 function getTasksForCurrentDay() {
   const today = new Date().toDateString(); // get today's date in the format "Day Month Date Year"
-  getTasks();
+  getTasks(); // retrieve the tasks array
   currentTasksState = tasks.filter((task) => {
     const taskDate = new Date(task.date).toDateString(); // convert the task's date to the same format
     return taskDate === today; // return true if the task's date matches today's date
@@ -45,11 +63,15 @@ function getTasksForNextSevenDays(tasks) {
   const nextSevenDays = new Date(
     today.getFullYear(),
     today.getMonth(),
-    today.getDate() + 7
+    today.getDate() + 7 // change this to 6 to include the current day
   ); // get the date for 7 days from now
+  console.log(nextSevenDays)
   currentTasksState = tasks.filter((task) => {
     const taskDate = new Date(task.date); // convert the task's date to a Date object
-    return taskDate >= today && taskDate <= nextSevenDays; // return true if the task's date falls within the next 7 days
+    // console.log(new Date())
+    // console.log(taskDate)
+    return taskDate <= nextSevenDays;
+    // return taskDate >= today && taskDate <= nextSevenDays; // return true if the task's date falls within the next 7 days
   });
   displayTasks(currentTasksState);
 }
@@ -111,6 +133,7 @@ function setupEventListeners() {
           </div>
       `;
     setupEventListeners();
+    getTasks();
     displayTasks(currentTasksState);
   };
 
@@ -223,48 +246,11 @@ function myTemplate(task) {
 }
 
 function displayTasks(tasks) {
-  getTasks();
+  // console.log(tasks);
   completedAccordion.innerHTML = "";
   let template = "";
-  /*
-  tasks = [
-    {
-      title: "Task one",
-      priority: "low",
-      details: "details details",
-      date: "mon sep 13, 2023",
-      isComplete: false,
-      id: 1,
-    },
-    {
-      title: "Task two",
-      priority: "high",
-      details: "details details",
-      date: "mon sep 13, 2023",
-      isComplete: false,
-      id: 2,
-    },
-    {
-      title: "Task 3",
-      priority: "low",
-      details: "details details",
-      date: "mon sep 13, 2023",
-      isComplete: true,
-      id: 3,
-    },
-    {
-      title: "Task 4",
-      priority: "medium",
-      details: "details details",
-      date: "mon sep 13, 2023",
-      isComplete: true,
-      id: 4,
-    },
-  ];
-  storeTasks();
-*/
 
-  if (tasks.filter((e) => !e.isComplete.length === 0))
+  if (tasks.filter((e) => !e.isComplete).length === 0)
     template = `
   <div class="relax-img">
             <img src="./imgs/relax.png" alt="relax">
@@ -356,7 +342,8 @@ function deleteTask(id) {
   getTasks();
   tasks = tasks.filter((t) => t.id != id);
   storeTasks();
-  displayTasks(tasks);
+  getCurrentTasksState();
+  displayTasks(currentTasksState);
 }
 /* handle show and close edit task form */
 function editTask(id) {
@@ -389,10 +376,13 @@ function editTask(id) {
       if (id == tasks[i].id) {
         tasks[i] = { ...newTask, isComplete: tasks[i].isComplete };
       }
+      if (currentTasksState[i].id == id)
+        currentTasksState[i] = { ...newTask, isComplete: tasks[i].isComplete };
     }
     storeTasks();
     document.getElementById("add-task-form").classList.remove("scale");
     inputs.forEach((e) => (e.value = ""));
+    getCurrentTasksState();
     displayTasks(currentTasksState);
   };
 }
@@ -412,7 +402,6 @@ function setActiveElement(elements, activeIndex, clickedIndex) {
   // return the index of the new active element
   return clickedIndex;
 }
-/* handle aside home click */
 
 /*
 
@@ -420,4 +409,42 @@ projects = [
   {name:, id , tasks: []}
 ]
 
+*/
+
+/*
+  tasks = [
+    {
+      title: "Task one",
+      priority: "low",
+      details: "details details",
+      date: "mon sep 13, 2023",
+      isComplete: false,
+      id: 1,
+    },
+    {
+      title: "Task two",
+      priority: "high",
+      details: "details details",
+      date: "mon sep 13, 2023",
+      isComplete: false,
+      id: 2,
+    },
+    {
+      title: "Task 3",
+      priority: "low",
+      details: "details details",
+      date: "mon sep 13, 2023",
+      isComplete: true,
+      id: 3,
+    },
+    {
+      title: "Task 4",
+      priority: "medium",
+      details: "details details",
+      date: "mon sep 13, 2023",
+      isComplete: true,
+      id: 4,
+    },
+  ];
+  storeTasks();
 */

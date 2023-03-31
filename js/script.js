@@ -373,9 +373,25 @@ document
   });
 /* handle delete task button */
 function deleteTask(id) {
-  getTasks();
-  tasks = tasks.filter((t) => t.id != id);
-  storeTasks();
+  if (currentSection === 1) {
+    getTasks();
+    tasks = tasks.filter((t) => t.id != id);
+    storeTasks();
+  } else {
+    let i = 0;
+    let j = 0;
+    for (; i < projects.length; i++) {
+      if (projects[i].id === currentSection) break;
+    }
+
+    for (; j < projects[i].tasks.length; j++) {
+      if (projects[i].tasks[j].id === id) {
+        projects[i].tasks = projects[i].tasks.filter((task) => task.id !== +id);
+        storeProjects()
+        break;
+      }
+    }
+  }
   getCurrentTasksState();
   displayTasks(currentTasksState);
 }
@@ -383,7 +399,23 @@ function deleteTask(id) {
 function editTask(id) {
   document.getElementById("add-task-form").classList.add("scale");
   changeFormString("Edit Task", "Submit");
-  let task = tasks.find((task) => task.id == id);
+  let i = 0;
+  let j = 0;
+  let task = {};
+  if (currentSection === 1) task = tasks.find((task) => task.id == id);
+  else {
+    for (; i < projects.length; i++) {
+      if (projects[i].id === currentSection) break;
+    }
+
+    for (; j < projects[i].tasks.length; j++) {
+      if (projects[i].tasks[j].id === id) {
+        task = projects[i].tasks[j];
+        break;
+      }
+    }
+    // console.log(projects[i].tasks[j]);
+  }
   inputs[0].value = task.title;
   inputs[1].value = task.details;
   inputs[2].value = task.priority;
@@ -405,14 +437,24 @@ function editTask(id) {
       isComplete: false,
       id: Math.random() * 100 + 1,
     };
-    for (let i = 0; i < tasks.length; i++) {
-      if (id == tasks[i].id) {
-        tasks[i] = { ...newTask, isComplete: tasks[i].isComplete };
+    if (currentSection === 1) {
+      for (let i = 0; i < tasks.length; i++) {
+        if (id == tasks[i].id) {
+          tasks[i] = { ...newTask, isComplete: tasks[i].isComplete };
+        }
+        if (currentTasksState[i].id == id)
+          currentTasksState[i] = {
+            ...newTask,
+            isComplete: tasks[i].isComplete,
+          };
       }
-      if (currentTasksState[i].id == id)
-        currentTasksState[i] = { ...newTask, isComplete: tasks[i].isComplete };
+      storeTasks();
+    } else {
+      console.log();
+      projects[i].tasks[j] = { ...projects[i].tasks[j], ...newTask };
+      storeProjects();
     }
-    storeTasks();
+
     document.getElementById("add-task-form").classList.remove("scale");
     inputs.forEach((e) => (e.value = ""));
     getCurrentTasksState();

@@ -5,33 +5,34 @@ displayMode === "dark" ? document.body.classList.add("display-dark") : null;
 let tasks = [];
 let currentTasksState = [];
 let currentSection = 1;
-function getCurrentTasksState() {
-  let active = document.querySelector("aside ul li a.active");
-  
-  currentSection = +active.getAttribute("data-key");
-  for(let i=0; i<projects.length; i++)
-  {
-    if (projects[i].id === currentSection)
-    {
-        currentTasksState = projects[i].tasks;
-        displayTasks(currentTasksState)
-        break;
-      }
-  }
-  if (active.id === "go-home") {
-    currentSection = 1;
-    getTasks();
-  } else if (active.id === "go-today") {
-    getTasksForCurrentDay();
-  } else if (active.id === "go-week") {
-    getTasksForNextSevenDays(tasks);
-  }
-}
 let inputs = [
   ...document.querySelectorAll(
     "#add-task-modal input, #add-task-modal textarea, #add-task-modal select"
   ),
 ];
+
+function getCurrentTasksState() {
+  let active = document.querySelector("aside ul li a.active");
+  currentSection = active !== null ? +active.getAttribute("data-key") : 1;
+  for (let i = 0; i < projects.length; i++) {
+    if (projects[i].id === currentSection) {
+      currentTasksState = projects[i].tasks;
+      displayTasks(currentTasksState);
+      break;
+    }
+  }
+  if (active.id === "go-home") {
+    currentSection = 1;
+    getTasks();
+  } else if (active.id === "go-today") {
+    currentSection = 1;
+    getTasksForCurrentDay();
+  } else if (active.id === "go-week") {
+    currentSection = 1;
+    getTasksForNextSevenDays(tasks);
+  }
+}
+
 const activeLi = document.querySelectorAll("aside ul li a");
 let activeIndex = 0; // set the initial active index
 let [homeAccordion, completedAccordion] = [
@@ -293,11 +294,23 @@ function displayTasks(tasks) {
 displayTasks(currentTasksState);
 /* Handle complete and unComplete task checkbox */
 function CompleteTask(id) {
-  currentTasksState.forEach((task) => {
-    task.id === +id ? (task.isComplete = !task.isComplete) : null;
-  });
-  storeTasks();
-  displayTasks(currentTasksState);
+  if (currentSection === 1) {
+    currentTasksState.forEach((task) => {
+      task.id === +id ? (task.isComplete = !task.isComplete) : null;
+    });
+    storeTasks();
+    displayTasks(currentTasksState);
+    return;
+  }
+  for (let i = 0; i < projects.length; i++) {
+    for (let j = 0; j < projects[i].tasks.length; j++) {
+      if (+id === projects[i].tasks[j].id) {
+        projects[i].tasks[j].isComplete = !projects[i].tasks[j].isComplete;
+        storeProjects();
+        displayTasks(projects[i].tasks);
+      }
+    }
+  }
 }
 
 /* accordion toggler */
@@ -368,14 +381,15 @@ function deleteTask(id) {
 }
 /* handle show and close edit task form */
 function editTask(id) {
-  getTasks();
-  let task = tasks.find((task) => task.id == id);
   document.getElementById("add-task-form").classList.add("scale");
+  changeFormString("Edit Task", "Submit");
+  let task = tasks.find((task) => task.id == id);
   inputs[0].value = task.title;
   inputs[1].value = task.details;
   inputs[2].value = task.priority;
   inputs[3].value = task.date;
-  changeFormString("Edit Task", "Submit");
+
+  getTasks();
   document.getElementById("add-task-modal").onsubmit = function (e) {
     e.preventDefault();
     if (!validation()) return;
@@ -442,19 +456,45 @@ function addProject() {
       });
       storeProjects();
       displayProjects();
+      location.reload();
     }
 }
 
+function resetContent() {
+  document.getElementById("main-content").innerHTML = `
+      <header class="mb-3">
+            <h2 class="fs-3">Home</h2>
+          </header>
+          <div class="tasks-container w-100">
+            <div class="add-task w-100 rounded" onclick="addTask()">
+              <button class="w-100 rounded">
+                <i class="fa-solid fa-plus add-project"></i>
+                <span>Add new task</span>
+              </button>
+            </div>
+            <div class="my-accordion">
+              <!-- Tasks -->
+    
+              <!-- Tasks -->
+            </div>
+          </div>
+          <h2 class="fs-6 mt-4">Complete Tasks</h2>
+          <div class="my-accordion complete-tasks">
+            <!-- Tasks -->
+    
+            <!-- Tasks -->
+          </div>
+      `;
+  console.log("here");
+}
 
 function projectTemplate(project) {
   return `
   <li>
-            <a href="#" data-key="${project.id}">
+            <a href="#" data-key="${project.id}" onclick="resetContent()">
               <i class="fa-solid fa-list me-2"></i>
               <span>${project.name}</span>
-              <div id="delete-project-btn" onclick="deleteProject(${
-                project.id
-              })">
+              <div id="delete-project-btn" onclick="deleteProject(${project.id})">
                 <i class="fa-solid fa-trash"></i>
               </div>
             </a>
@@ -463,16 +503,19 @@ function projectTemplate(project) {
 }
 
 function deleteProject(id) {
-  // projects = projects.filter((p) => {
-    // console.log(projects);
-    // console.log(id);
-    // console.log(id === p.id);
-    // p.id !== id
-  // });
-    projects = projects.filter(p => p.id !== id)
-    storeProjects();
-    displayProjects();
-    
+  console.log("from deleteProject:  " + id);
+  projects = projects.filter((p) => {
+    // if (id === currentSection) currentSection = 1;
+    console.log(currentSection);
+    console.log(id);
+    if (id === currentSection) {
+      document.getElementById("go-home").click();
+      document.getElementById("go-home").click();
+    }
+    return p.id !== id;
+  });
+  storeProjects();
+  displayProjects();
 }
 
 function displayProjects() {
@@ -487,11 +530,15 @@ displayProjects();
 [...document.querySelectorAll("#projects-container li a")].forEach(
   (element) => {
     element.onclick = (e) => {
+      // console.log(e.target.tagName === "path");
+      if (e.target.tagName === "path") return;
+      console.log(currentSection);
+      if (currentSection !== 1) resetContent();
       [...document.querySelectorAll("#projects-container li a")].forEach(
         (ele) => ele.classList.remove("active")
       );
       activeLi.forEach((a) => a.classList.remove("active"));
-      element.classList.add('active')
+      element.classList.add("active");
       getCurrentTasksState();
       getCurrentTasksState();
     };

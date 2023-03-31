@@ -1,25 +1,31 @@
 /* handle mode and mode toggler */
 let displayMode = localStorage.getItem("mode") || "light";
-displayMode === "dark" ? document.body.classList.add("display-dark"): null;
-console.log(displayMode)
-console.log(document.body);
+displayMode === "dark" ? document.body.classList.add("display-dark") : null;
 
 let tasks = [];
 let currentTasksState = [];
+let currentSection = 1;
 function getCurrentTasksState() {
-  let active = document.querySelector('aside ul li a.active').id
-  if (active === 'go-home')
+  let active = document.querySelector("aside ul li a.active");
+  
+  currentSection = +active.getAttribute("data-key");
+  for(let i=0; i<projects.length; i++)
   {
-    getTasks()
-    console.log(currentTasksState);
-  } else if (active === 'go-today')
-  {
+    if (projects[i].id === currentSection)
+    {
+        currentTasksState = projects[i].tasks;
+        displayTasks(currentTasksState)
+        break;
+      }
+  }
+  if (active.id === "go-home") {
+    currentSection = 1;
+    getTasks();
+  } else if (active.id === "go-today") {
     getTasksForCurrentDay();
-  } else if (active === 'go-week')
-  {
+  } else if (active.id === "go-week") {
     getTasksForNextSevenDays(tasks);
   }
-  console.log(active)
 }
 let inputs = [
   ...document.querySelectorAll(
@@ -65,12 +71,10 @@ function getTasksForNextSevenDays(tasks) {
     today.getMonth(),
     today.getDate() + 7 // change this to 6 to include the current day
   ); // get the date for 7 days from now
-  console.log(nextSevenDays)
   currentTasksState = tasks.filter((task) => {
     const taskDate = new Date(task.date); // convert the task's date to a Date object
-    // console.log(new Date())
-    // console.log(taskDate)
-    return taskDate <= nextSevenDays;
+    // return taskDate <= nextSevenDays;
+    return taskDate >= today && taskDate <= nextSevenDays;
     // return taskDate >= today && taskDate <= nextSevenDays; // return true if the task's date falls within the next 7 days
   });
   displayTasks(currentTasksState);
@@ -182,6 +186,17 @@ function setupEventListeners() {
     setupEventListeners();
     getTasksForNextSevenDays(tasks);
   };
+
+  /* toggle active for projects */
+  activeLi.forEach((element, index) => {
+    element.addEventListener("click", () => {
+      getCurrentTasksState();
+      activeIndex = setActiveElement(activeLi, activeIndex, index);
+      [...document.querySelectorAll("#projects-container li a")].forEach((a) =>
+        a.classList.remove("active")
+      );
+    });
+  });
 }
 
 // call setupEventListeners initially
@@ -246,7 +261,6 @@ function myTemplate(task) {
 }
 
 function displayTasks(tasks) {
-  // console.log(tasks);
   completedAccordion.innerHTML = "";
   let template = "";
 
@@ -279,11 +293,9 @@ function displayTasks(tasks) {
 displayTasks(currentTasksState);
 /* Handle complete and unComplete task checkbox */
 function CompleteTask(id) {
-  // console.log(tasks);
   currentTasksState.forEach((task) => {
     task.id === +id ? (task.isComplete = !task.isComplete) : null;
   });
-  // console.log(tasks);
   storeTasks();
   displayTasks(currentTasksState);
 }
@@ -291,7 +303,6 @@ function CompleteTask(id) {
 /* accordion toggler */
 function accordionToggle() {
   const accordions = [...document.getElementsByClassName("content-box")];
-  // console.log(accordions)
   accordions.forEach((element) => {
     element.querySelector(".label").addEventListener("click", function () {
       element.classList.toggle("active");
@@ -319,14 +330,24 @@ function ADD_TASK(e) {
     isComplete: false,
     id: Math.random() * 100 + 1,
   };
-  // console.log(newTask);
   getTasks();
-  tasks.push(newTask);
-  storeTasks();
+  if (currentSection === 1) {
+    tasks.push(newTask);
+    displayTasks(tasks);
+    storeTasks();
+  } else {
+    let i = 0;
+    for (; i < projects.length; i++) {
+      if (projects[i].id === currentSection) {
+        projects[i].tasks.push(newTask);
+        storeProjects();
+        displayTasks(projects[i].tasks);
+      }
+    }
+  }
   /* empty and close the form */
 
   inputs.forEach((e) => (e.value = ""));
-  displayTasks(tasks);
   document.getElementById("add-task-form").classList.remove("scale");
 }
 /* change the color of dot after priority in the add form */
@@ -348,9 +369,7 @@ function deleteTask(id) {
 /* handle show and close edit task form */
 function editTask(id) {
   getTasks();
-  // console.log(tasks)
   let task = tasks.find((task) => task.id == id);
-  // console.log(task);
   document.getElementById("add-task-form").classList.add("scale");
   inputs[0].value = task.title;
   inputs[1].value = task.details;
@@ -388,11 +407,6 @@ function editTask(id) {
 }
 /* handle active bar */
 
-activeLi.forEach((element, index) => {
-  element.addEventListener("click", () => {
-    activeIndex = setActiveElement(activeLi, activeIndex, index);
-  });
-});
 function setActiveElement(elements, activeIndex, clickedIndex) {
   // remove the active class from the previously active element
   elements[activeIndex].classList.remove("active");
@@ -402,7 +416,87 @@ function setActiveElement(elements, activeIndex, clickedIndex) {
   // return the index of the new active element
   return clickedIndex;
 }
+/* Handle add projects */
+let addProjectBtn = document.getElementById("add-project");
+let projectsContainer = document.getElementById("projects-container");
+let projects = [];
 
+getProjects();
+
+function getProjects() {
+  projects = JSON.parse(localStorage.getItem("projects")) || [];
+  // projects = ;
+}
+function storeProjects() {
+  localStorage.setItem("projects", JSON.stringify(projects));
+}
+addProjectBtn.onclick = addProject;
+function addProject() {
+  const projectName = prompt("Write project name");
+  if (projectName)
+    if (projectName.trim()) {
+      projects.push({
+        name: projectName,
+        id: Math.random() * 100 + 1,
+        tasks: [],
+      });
+      storeProjects();
+      displayProjects();
+    }
+}
+
+
+function projectTemplate(project) {
+  return `
+  <li>
+            <a href="#" data-key="${project.id}">
+              <i class="fa-solid fa-list me-2"></i>
+              <span>${project.name}</span>
+              <div id="delete-project-btn" onclick="deleteProject(${
+                project.id
+              })">
+                <i class="fa-solid fa-trash"></i>
+              </div>
+            </a>
+          </li>
+  `;
+}
+
+function deleteProject(id) {
+  // projects = projects.filter((p) => {
+    // console.log(projects);
+    // console.log(id);
+    // console.log(id === p.id);
+    // p.id !== id
+  // });
+    projects = projects.filter(p => p.id !== id)
+    storeProjects();
+    displayProjects();
+    
+}
+
+function displayProjects() {
+  let template = "";
+  projects.forEach((proj) => {
+    template += projectTemplate(proj);
+  });
+  projectsContainer.innerHTML = template;
+}
+displayProjects();
+/* handle active item */
+[...document.querySelectorAll("#projects-container li a")].forEach(
+  (element) => {
+    element.onclick = (e) => {
+      [...document.querySelectorAll("#projects-container li a")].forEach(
+        (ele) => ele.classList.remove("active")
+      );
+      activeLi.forEach((a) => a.classList.remove("active"));
+      element.classList.add('active')
+      getCurrentTasksState();
+      getCurrentTasksState();
+    };
+  }
+);
 /*
 
 projects = [

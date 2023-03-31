@@ -592,4 +592,8 @@ label[data-color="high"]::after {
 .display-dark .my-modal-content header {
   color: #fff;
 }
+
+.display-dark #end-date.time-limit {
+  color: #9f353f !important;
+}
 /* end dark mode */

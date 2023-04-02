@@ -1,4 +1,4 @@
-/* handle mode and mode toggler */
+/* handle mode  toggler */
 let displayMode = localStorage.getItem("mode") || "light";
 displayMode === "dark" ? document.body.classList.add("display-dark") : null;
 

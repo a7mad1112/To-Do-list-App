@@ -41,18 +41,18 @@
       </header>
       <ul class="p-0">
         <li class="">
-          <a href="#" id="go-home" class="active">
+          <a href="#" class="active" data-id="1" onclick="displayProjectTasks(1)">
             <i class="fa-solid fa-house"></i>
             <span>home</span>
           </a>
         </li>
         <li>
-          <a href="#" id="go-today">
+          <a href="#" data-id="2" onclick="displayProjectTasks(2)">
             <i class="fa-solid fa-earth-americas"></i>
             <span>today</span>
           </a>
         </li>
-        <li><a href="#" id="go-week">
+        <li><a href="#" data-id="3" onclick="displayProjectTasks(3)">
             <i class="fa-regular fa-calendar"></i>
             <span>Next Seven Days</span>
           </a>
@@ -106,7 +106,7 @@
         <h2 class="fs-3">Home</h2>
       </header>
       <div class="tasks-container w-100">
-        <div class="add-task w-100 rounded" onclick="addTask()">
+        <div class="add-task w-100 rounded" onclick="showAddTaskForm()">
           <button class="w-100 rounded">
             <i class="fa-solid fa-plus add-project"></i>
             <span>Add new task</span>
@@ -183,7 +183,8 @@
 
   <script src="./js/bootstrap.bundle.min.js"></script>
   <script src="./js/all.min.js"></script>
-  <script src="./js/script.js"></script>
+  <!-- <script src="./js/script.js"></script> -->
+  <script src="./js/main.js"></script>
 </body>
 
 </html>

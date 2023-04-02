@@ -138,7 +138,9 @@ function setupEventListeners() {
           </div>
       `;
     setupEventListeners();
+    getCurrentTasksState();
     getTasks();
+    // console.log(currentTasksState);
     displayTasks(currentTasksState);
   };
 
@@ -196,6 +198,13 @@ function setupEventListeners() {
       [...document.querySelectorAll("#projects-container li a")].forEach((a) =>
         a.classList.remove("active")
       );
+    });
+  });
+
+  // close side bar in links click
+  [...document.querySelectorAll("aside ul li a")].forEach((ele) => {
+    ele.addEventListener("click", function () {
+      document.querySelector("body aside").classList.remove("show-side");
     });
   });
 }
@@ -262,6 +271,7 @@ function myTemplate(task) {
 }
 
 function displayTasks(tasks) {
+  console.log(tasks);
   completedAccordion.innerHTML = "";
   let template = "";
 
@@ -387,7 +397,7 @@ function deleteTask(id) {
     for (; j < projects[i].tasks.length; j++) {
       if (projects[i].tasks[j].id === id) {
         projects[i].tasks = projects[i].tasks.filter((task) => task.id !== +id);
-        storeProjects()
+        storeProjects();
         break;
       }
     }
@@ -533,7 +543,7 @@ function resetContent() {
 function projectTemplate(project) {
   return `
   <li>
-            <a href="#" data-key="${project.id}" onclick="resetContent()">
+            <a href="#" data-key="${project.id}"">
               <i class="fa-solid fa-list me-2"></i>
               <span>${project.name}</span>
               <div id="delete-project-btn" onclick="deleteProject(${project.id})">
@@ -546,14 +556,11 @@ function projectTemplate(project) {
 
 function deleteProject(id) {
   console.log("from deleteProject:  " + id);
+  if (id === currentSection) {
+    document.getElementById("go-home").click();
+    document.getElementById("go-home").click();
+  }
   projects = projects.filter((p) => {
-    // if (id === currentSection) currentSection = 1;
-    console.log(currentSection);
-    console.log(id);
-    if (id === currentSection) {
-      document.getElementById("go-home").click();
-      document.getElementById("go-home").click();
-    }
     return p.id !== id;
   });
   storeProjects();
@@ -566,16 +573,24 @@ function displayProjects() {
     template += projectTemplate(proj);
   });
   projectsContainer.innerHTML = template;
+
+  setupEventListeners();
 }
 displayProjects();
 /* handle active item */
 [...document.querySelectorAll("#projects-container li a")].forEach(
   (element) => {
     element.onclick = (e) => {
-      // console.log(e.target.tagName === "path");
+      console.log(e.target);
+      console.log(projects.find((e) => e.id === currentSection));
       if (e.target.tagName === "path") return;
       console.log(currentSection);
-      if (currentSection !== 1) resetContent();
+      if (currentSection !== 1) {
+        resetContent();
+        console.log(currentSection);
+        displayTasks(projects.find((e) => e.id === currentSection).tasks);
+      }
+      // document.querySelector("#main-content header h2").innerHTML = projects.find(e => e.id === currentSection).name;
       [...document.querySelectorAll("#projects-container li a")].forEach(
         (ele) => ele.classList.remove("active")
       );

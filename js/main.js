@@ -119,7 +119,7 @@ function changeHeadingSection(id) {
 // function to return the tasks with date today
 function getTasksForCurrentDay() {
   const today = new Date().toDateString(); // get today's date in the format "Day Month Date Year"
-  tasks = JSON.parse(localStorage.getItem("tasks"));
+  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
   currentTasksState = tasks.filter((task) => {
     const taskDate = new Date(task.date).toDateString(); // convert the task's date to the same format
     return taskDate === today; // return true if the task's date matches today's date
@@ -129,7 +129,7 @@ function getTasksForCurrentDay() {
 
 // function to return tasks for the next week
 function getTasksForNextSevenDays() {
-  tasks = JSON.parse(localStorage.getItem("tasks"));
+  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
   const today = new Date(); // get today's date
   const nextSevenDays = new Date(
     today.getFullYear(),
@@ -184,8 +184,7 @@ function displayTasks(tasks) {
 
   template = "";
 
-  tasks
-    .filter((e) => e.isComplete)
+  tasks?.filter((e) => e.isComplete)
     .forEach((task) => {
       template += myTemplate(task);
     });
@@ -305,7 +304,7 @@ function addTask(e) {
 
 function storeTask(task) {
   if (currentSection === 1) {
-    tasks = JSON.parse(localStorage.getItem("tasks"));
+    tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
   } else {

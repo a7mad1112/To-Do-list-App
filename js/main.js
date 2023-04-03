@@ -203,36 +203,41 @@ function accordionToggle() {
 function myTemplate(task) {
   return `
   <div class="content-box">
-  <div class="task rounded-3 ${task.priority}-priority" aria-label="task">
-    <div class="label">
-      <span class="task-header">${task.title}</span>
+    <div class="task rounded-3 ${task.priority}-priority" aria-label="task">
+      <div class="label">
+        <label for="task-title-${task.id}">${task.title}</label>
+      </div>
+      <div class="task-actions">
+        <span id="edit-task-btn" onclick=editTask(${task.id})>
+          <i class="fa-solid fa-pen"></i>
+        </span>
+        <span id="delete-task-btn" role="button" aria-label="Delete task" onclick=deleteTask(${
+          task.id
+        })>
+          <i class="fa-solid fa-trash"></i>
+        </span>
+      </div>
     </div>
-    <div class="task-actions">
-      <span id="edit-task-btn" onclick=editTask(${task.id})>
-        <i class="fa-solid fa-pen"></i>
-      </span>
-      <span id="delete-task-btn" role="button" aria-label="Delete task" onclick=deleteTask(${
-        task.id
-      })>
-        <i class="fa-solid fa-trash"></i>
-      </span>
+    <div class="content rounded-bottom">
+      <p>
+        Details: ${task.details}
+      </p>
+      <p id="end-date" class="mt-1 ${
+        hasDatePassed(task.date) ? "time-limit" : "null"
+      }">
+        <label for="task-date-${task.id}">Date:</label>
+        <span id="task-date-${task.id}">${task.date}</span>
+      </p>
+      <p class="is-done text-end">
+        <label for="task-isComplete-${task.id}">Complete: </label>
+        <input type="checkbox" id="task-isComplete-${task.id}" ${
+    task.isComplete ? "checked" : null
+  } name="isComplete" ${task.isComplete ?? "checked"} onclick=CompleteTask(${
+    task.id
+  })>
+      </p>
     </div>
   </div>
-  <div class="content rounded-bottom">
-    <p>
-      Details: ${task.details}
-    </p>
-    <p id="end-date" class="mt-1 ${
-      hasDatePassed(task.date) ? "time-limit" : "null"
-    }">Date: ${task.date}</p>
-    <!-- <p class="priority">Priority: High</p> -->
-    <p class="is-done text-end">
-      <input type="checkbox" name="isComplete" ${
-        task.isComplete ?? "checked"
-      } onclick=CompleteTask(${task.id})>
-    </p>
-  </div>
-</div>
   `;
 }
 

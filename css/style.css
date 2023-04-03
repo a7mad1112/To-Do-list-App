@@ -130,6 +130,7 @@ aside ul li a {
   text-transform: capitalize;
   padding: 5px 5px;
   border-radius: 5px;
+  font-weight: bold;
 }
 
 aside ul li a {
@@ -541,7 +542,7 @@ label[data-color="high"]::after {
 }
 
 .display-dark aside ul li a.active {
-  background-color: var(--low-priority);
+  background-color: #41464b;
   color: #fff;
 }
 
@@ -558,7 +559,7 @@ label[data-color="high"]::after {
 }
 
 .display-dark .add-task button {
-  background-color: var(--low-priority);
+  background-color: #41464b;
 }
 
 .display-dark .add-task button:hover {

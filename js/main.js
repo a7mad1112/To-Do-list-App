@@ -444,6 +444,11 @@ document.getElementById("toggle-bar").onclick = function () {
   document.querySelector("body aside").classList.toggle("show-side");
 };
 
+/* select priority color */
+document.getElementById('select-priority').oninput = function(e) {
+  document.querySelector('[for="select-priority"]').setAttribute('data-color', e.target.value);
+}
+
 // let projects2 = [
 //   {
 //     name: "project 1",

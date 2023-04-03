@@ -76,6 +76,9 @@ function deleteProject(id) {
 }
 
 function displayProjectTasks(id) {
+  // close aside bar of needed
+  document.querySelector("body aside").classList.remove("show-side");
+
   // remove active li from each and set it
   document
     .querySelectorAll("aside ul li a")
@@ -166,7 +169,7 @@ function displayTasks(tasks) {
   if (tasks.filter((e) => !e.isComplete).length === 0)
     template = `
   <div class="relax-img">
-            <img src="./imgs/relax.png" alt="relax">
+            <img src="./imgs/relax2.svg" alt="relax">
             <p>You don't have any tasks, just relax!</p>
           </div>
   `;
@@ -436,6 +439,11 @@ function editTask(taskId) {
     document.getElementById("add-task-form").classList.remove("scale");
   };
 }
+
+/* toggle aside button */
+document.getElementById("toggle-bar").onclick = function () {
+  document.querySelector("body aside").classList.toggle("show-side");
+};
 
 // let projects2 = [
 //   {

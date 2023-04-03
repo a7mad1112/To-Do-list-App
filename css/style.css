@@ -519,7 +519,9 @@ label[data-color="high"]::after {
   width: 100%;
   max-width: 600px;
 }
-
+.relax-img p {
+  margin-top: 30px !important;
+}
 /* end add task modal */
 
 /* start dark mode */

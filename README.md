@@ -46,7 +46,7 @@ We would also like to thank Dalia Alawneh, Mohammed Mansour, and Jihad Abu Zohri
 To use the app, simply visit the deployed website here.You can add, delete, and edit tasks as needed.
 The app is designed to be intuitive and easy to use.
 
-Conclusion
+## Conclusion
 Overall, To-Do-list-App is a simple and effective way to keep track of your tasks and make your life easier.
 Whether you are a student, a professional, or just someone looking to stay organized, this app can help you stay on top of your to-do list.
 Thank you for checking out our project!
